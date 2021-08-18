@@ -5,7 +5,7 @@ public class Main
 	public static void main(String[] args) {
 		int [][] m = {{6, 6, 0, 0, 0},
                     {0, 0, 6, 0, 6},
-                    {0, 6, 5, 0, 0},
+                    {6, 0, 5, 0, 0},
                     {0, 1, 6, 6, 0},
                     {0, 0, 0, 0, 0}};
                 
@@ -20,18 +20,43 @@ public class Main
                 if (m[i][j] == 5 ) {
                     e_x = j;
                     e_y = i;
-                } 
-                System.out.print(i + " " + j + " - " + m[i][j] + "    |     "); //debugging
+                }
             }
-            System.out.println(); //debugging
         }
         
         System.out.println(s_x + " " + s_y + " " + e_x + " " + e_y); //debugging
         
         int []position = {s_x, s_y};
-        
-        stack.add(position); //add starting point to stack so we can start bfsing (is that a verb?)
-        
+        ArrayList<int[]> visited = new ArrayList<int[]>();
+        boolean foundFlag = false; 
+        while (!foundFlag) {
+            int x = position[0];
+            int y = position[1];
+            if (m[x][y] == 5) {
+                foundFlag = true;
+            }
+            
+            visited.add(position);
+            int [] right = {x-1, y};
+            int [] left = {x+1, y};
+            int [] up = {x, y+1};
+            int [] down = {x, y-1};
+            
+            if (!visited.contains(right) && m[x][y] != 6 && x < 5 && x > 0 && y < 5 && y > 0) {
+                stack.add(right);
+            }
+            if (!visited.contains(left) && m[x][y] != 6 && x < 5 && x > 0 && y < 5 && y > 0) {
+                stack.add(left);
+            }
+            if (!visited.contains(up) && m[x][y] != 6 && x < 5 && x > 0 && y < 5 && y > 0) {
+                stack.add(up);
+            }
+            if (!visited.contains(down) && m[x][y] != 6 && x < 5 && x > 0 && y < 5 && y > 0) {
+                stack.add(down);
+            }
+            
+            position = stack.remove(0);
+        }
         
 	}
 }
